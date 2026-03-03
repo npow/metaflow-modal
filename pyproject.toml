@@ -1,0 +1,95 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "metaflow-modal"
+version = "0.1.0"
+description = "Run Metaflow steps on Modal's serverless GPU cloud"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.9"
+dependencies = [
+    "metaflow>=2.12",
+    "modal>=0.73",
+]
+authors = [
+    { name = "npow" },
+]
+keywords = [
+    "metaflow",
+    "modal",
+    "cloud",
+    "gpu",
+    "serverless",
+    "ml",
+    "machine-learning",
+    "mlops",
+    "orchestration",
+    "remote-execution",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Distributed Computing",
+]
+
+[project.urls]
+Homepage = "https://github.com/npow/metaflow-modal"
+Repository = "https://github.com/npow/metaflow-modal"
+Issues = "https://github.com/npow/metaflow-modal/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.8",
+    "mypy>=1.10",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/metaflow_extensions"]
+
+[tool.ruff]
+src = ["src"]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "RUF",  # ruff-specific
+    "SIM",  # flake8-simplify
+    "TCH",  # type-checking imports
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["metaflow_extensions"]
+force-single-line = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "structural: tests that enforce architectural constraints",
+    "integration: tests that require Modal credentials",
+]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
