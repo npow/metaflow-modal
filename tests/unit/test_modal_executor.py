@@ -172,7 +172,6 @@ class TestExecutorGpuResolution:
 
         with patch.dict("sys.modules", {"modal": modal_mock}):
             # Force reimport of the executor with mock in place.
-            import importlib
             import sys as _sys
 
             # Remove cached module if present
@@ -361,7 +360,6 @@ def mocked_executor():
     }
 
     with patch.dict("sys.modules", modules):
-        import importlib
         import sys as _sys
 
         for key in list(_sys.modules.keys()):

@@ -14,6 +14,7 @@ Mirrors ``metaflow.plugins.aws.batch.batch.Batch`` in structure.
 
 from __future__ import annotations
 
+import contextlib
 import os
 import shlex
 import sys
@@ -407,16 +408,12 @@ class ModalExecutor:
         t_err = threading.Thread(target=_read_stderr, daemon=True)
         t_out.start()
         t_err.start()
-        # raise_on_termination=False: handle preemption (returncode=137) and timeout
-        # (returncode=124) via the normal exit-code path below instead of raising.
-        try:
+        # raise_on_termination=False: handle preemption (returncode=137) via the normal
+        # exit-code path. SandboxTimeoutError (returncode=124) is still raised even with
+        # raise_on_termination=False — _result is set before the raise so returncode=124
+        # is still available. Any unexpected wait() error leaves returncode=None (→ 1).
+        with contextlib.suppress(Exception):
             sandbox.wait(raise_on_termination=False)
-        except Exception:
-            # SandboxTimeoutError still fires even with raise_on_termination=False
-            # (only affects TERMINATED, not TIMEOUT). _result is set before the raise,
-            # so returncode=124 is available. Any other unexpected wait() error is also
-            # caught here; returncode will be None and we default to 1 below.
-            pass
         t_out.join(timeout=30)
         t_err.join(timeout=30)
 

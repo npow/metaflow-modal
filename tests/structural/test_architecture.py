@@ -69,8 +69,6 @@ class TestPluginRegistration:
     """CLIS_DESC and STEP_DECORATORS_DESC must be well-formed."""
 
     def test_clis_desc_exists(self) -> None:
-        tree = ast.parse((PLUGINS_DIR / "__init__.py").read_text())
-        names = {node.id for node in ast.walk(tree) if isinstance(node, ast.Name)}
         source = (PLUGINS_DIR / "__init__.py").read_text()
         assert "CLIS_DESC" in source
 
@@ -133,11 +131,10 @@ class TestLazyImports:
                 for alias in node.names:
                     if alias.name == pkg or alias.name.startswith(pkg + "."):
                         return True
-            elif isinstance(node, ast.ImportFrom):
-                if node.module and (
-                    node.module == pkg or node.module.startswith(pkg + ".")
-                ):
-                    return True
+            elif isinstance(node, ast.ImportFrom) and node.module and (
+                node.module == pkg or node.module.startswith(pkg + ".")
+            ):
+                return True
         return False
 
     def test_executor_no_toplevel_modal_import(self) -> None:

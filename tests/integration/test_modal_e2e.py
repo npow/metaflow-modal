@@ -38,7 +38,9 @@ def _skip_if_no_modal() -> None:
         )
 
 
-def _run_flow(flow_src: str, tmp_path: any, extra_args: list[str] | None = None) -> subprocess.CompletedProcess:
+def _run_flow(
+    flow_src: str, tmp_path: any, extra_args: list[str] | None = None
+) -> subprocess.CompletedProcess:
     """Write a flow to a temp file, run it, and return the result."""
     flow_file = tmp_path / "flow.py"
     flow_file.write_text(flow_src)
@@ -95,7 +97,8 @@ class TestModalE2E:
         assert result.returncode == 0, (
             f"Flow failed.\nstdout:\n{result.stdout}\nstderr:\n{result.stderr}"
         )
-        assert "Success: HELLO FROM MODAL" in result.stdout or "Success: HELLO FROM MODAL" in result.stderr
+        success = "Success: HELLO FROM MODAL"
+        assert success in result.stdout or success in result.stderr
 
     def test_gpu_metadata(self, tmp_path) -> None:
         """Flow that requests a T4 GPU and verifies nvidia-smi is available."""
