@@ -4,7 +4,7 @@
 [![PyPI](https://img.shields.io/pypi/v/metaflow-modal)](https://pypi.org/project/metaflow-modal/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Status: WIP](https://img.shields.io/badge/status-WIP-orange.svg)](#)
+[![Status: WIP](https://img.shields.io/badge/status-WIP-orange.svg)](#) [![Docs](https://img.shields.io/badge/docs-mintlify-18a34a?style=flat-square)](https://mintlify.com/npow/metaflow-modal)
 
 > **Work in progress.** The API is functional but not yet stable. Breaking changes may occur before 1.0.
 
